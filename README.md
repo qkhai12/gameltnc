@@ -41,16 +41,29 @@ Yếu tố trong game
 
 Tính năng chính
 •	Animation
+
 •	Texture
+
 •	Background
+
 •	Event bàn phím
+
 •	Event chuột
+
 •	Xử lí va chạm
+
+
 •	Tính điểm
+
+
 •	Sound
+
 •	Font
+
 •	Menu
+
 •	Background music
+
 
 
 Nguồn tham khảo: 
