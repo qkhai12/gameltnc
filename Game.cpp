@@ -148,7 +148,7 @@ void updateGame(SDL_Renderer* renderer, bool& running, bool& inMenu) {
     isJumping = velY < 0;
 
     if (player.y < SCREEN_HEIGHT / 2) {
-        int dy = SCREEN_HEIGHT / 2 - player.y;  //cuon man
+        int dy = SCREEN_HEIGHT / 2 - player.y;  //cuộn màn hình nếu đi quá nửa
         player.y = SCREEN_HEIGHT / 2;
         for (auto& plat : platforms) plat.rect.y += dy;
         for (auto& bullet : bullets) bullet.rect.y += dy;
@@ -178,7 +178,7 @@ void updateGame(SDL_Renderer* renderer, bool& running, bool& inMenu) {
         }
     }
 
-    for (auto& plat : platforms) { // platform
+    for (auto& plat : platforms) { // đổi hướng platform khi quá giới hạn trái,phải
         if (plat.type == MOVING) {
             plat.rect.x += MOVING_PLATFORM_SPEED * plat.direction;
             if (plat.rect.x <= 0) {
@@ -191,13 +191,13 @@ void updateGame(SDL_Renderer* renderer, bool& running, bool& inMenu) {
         }
     }
 
-    bool landedOnPlatform = false; // check cham platform
+    bool landedOnPlatform = false; // check chạm platform
     for (auto& plat : platforms) {
         if (velY > 0 && player.y + PLAYER_HEIGHT <= plat.rect.y + velY &&
             player.y + PLAYER_HEIGHT >= plat.rect.y &&
             player.x + PLAYER_WIDTH > plat.rect.x &&
             player.x < plat.rect.x + plat.rect.w) {
-            velY = JUMP_VELOCITY;
+            velY = JUMP_VELOCITY; // nhảy tự động
             isJumping = true;
             player.y = plat.rect.y - PLAYER_HEIGHT;
             if (!landedOnPlatform) {
@@ -213,7 +213,7 @@ void updateGame(SDL_Renderer* renderer, bool& running, bool& inMenu) {
         }
     }
 
-    for (auto& e : enemies) {  // check va cham enemies
+    for (auto& e : enemies) {  // check va chạm enemies
         if (e.isAlive && SDL_HasIntersection(&player, &e.rect)) {
             if (velY > 0 && player.y + PLAYER_HEIGHT - velY <= e.rect.y &&
                 player.x + PLAYER_WIDTH > e.rect.x && player.x < e.rect.x + e.rect.w) {
@@ -228,7 +228,7 @@ void updateGame(SDL_Renderer* renderer, bool& running, bool& inMenu) {
         }
     }
 
-    for (auto& bullet : bullets) { // va cham dan quai
+    for (auto& bullet : bullets) { // va cham đạn với quai
     if (bullet.isActive) {
         bullet.rect.y -= BULLET_SPEED;
         if (bullet.rect.y + bullet.rect.h < 0) {
@@ -249,13 +249,13 @@ void updateGame(SDL_Renderer* renderer, bool& running, bool& inMenu) {
     }
 }
 
-    bullets.erase(std::remove_if(bullets.begin(), bullets.end(),
+    bullets.erase(std::remove_if(bullets.begin(), bullets.end(),// xoá đạn
         [](const Bullet& b) { return !b.isActive; }), bullets.end());
 
-    enemies.erase(std::remove_if(enemies.begin(), enemies.end(),
+    enemies.erase(std::remove_if(enemies.begin(), enemies.end(),// xoá địch
         [](const Enemy& e) { return (!e.isAlive && e.rect.y > SCREEN_HEIGHT) || e.rect.y > SCREEN_HEIGHT; }), enemies.end());
 
-    for (auto& portal : portals) {//
+    for (auto& portal : portals) {// dịch chuyển
         if (portal.isActive && !portal.isUsed && SDL_HasIntersection(&player, &portal.rect)) {
             Portal* targetPortal = nullptr;
             for (auto& p : portals) {
@@ -278,13 +278,13 @@ void updateGame(SDL_Renderer* renderer, bool& running, bool& inMenu) {
     portals.erase(std::remove_if(portals.begin(), portals.end(),
         [](const Portal& p) { return p.rect.y > SCREEN_HEIGHT; }), portals.end());
 
-    if (!platforms.empty() && platforms.back().rect.y > 0) {
+    if (!platforms.empty() && platforms.back().rect.y > 0) { // thêm plat
         Platform newPlat;
         newPlat.rect.w = 80;
         newPlat.rect.h = 15;
         newPlat.rect.y = platforms.back().rect.y - (30 + rand() % 50);
         newPlat.rect.x = std::max(0, std::min(SCREEN_WIDTH - 80, platforms.back().rect.x + (rand() % 400 - 200)));
-        newPlat.type = (rand() % 10 < 3) ? MOVING : NORMAL;
+        newPlat.type = (rand() % 10 < 2) ? MOVING : NORMAL;
         newPlat.direction = (rand() % 2 == 0) ? 1 : -1;
         platforms.push_back(newPlat);
 
@@ -294,7 +294,7 @@ void updateGame(SDL_Renderer* renderer, bool& running, bool& inMenu) {
             e.baseY = e.rect.y;
             enemies.push_back(e);
         }
-        if (rand() % 100 < 5) {
+        if (rand() % 100 < 5&& newPlat.type == NORMAL) {
             Portal p;
             p.rect = { newPlat.rect.x + newPlat.rect.w / 2 - 20, newPlat.rect.y - 40, 40, 40 };
             portals.push_back(p);
@@ -353,7 +353,7 @@ void renderGame(SDL_Renderer* renderer, SDL_Texture* backgroundTexture, SDL_Text
     SDL_Rect dstRect = { player.x, player.y, PLAYER_WIDTH, PLAYER_HEIGHT };
     SDL_RenderCopy(renderer, currentTexture, NULL, &dstRect);
 
-    SDL_Surface* textSurface = TTF_RenderText_Solid(font, std::to_string(score).c_str(), textColor);
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, std::to_string(score).c_str(), textColor);// hiện điểm
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
     SDL_Rect textRect = {10, 10, textSurface->w, textSurface->h};
     SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
