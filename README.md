@@ -67,7 +67,6 @@ Ngưỡng điểm mong muốn: 8-8,5
 Nguồn tham khảo: 
 - Assets: https://www.spriters-resource.com/mobile/doodlejump/sheet/51424/
 - Âm thanh tham khảo trên: https://pixabay.com/sound-effects/
-- Học cùng AI
-
+- Học cùng AI (GPT)
 
 
