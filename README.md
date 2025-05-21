@@ -10,7 +10,6 @@ Cách chơi:
 
 •	Nhảy lên càng cao càng tốt, leo lên các nền tảng (platform) mà không bị rơi xuống dưới màn hình.
 
-
 •	Tránh hoặc tiêu diệt kẻ thù.
 
 •	Cố gắng đạt điểm số cao nhất có thể.
@@ -67,6 +66,9 @@ Tính năng chính
 
 
 Nguồn tham khảo: 
+- Assets: https://www.spriters-resource.com/mobile/doodlejump/sheet/51424/
+- Âm thanh tham khảo trên: https://pixabay.com/sound-effects/
+- Học cùng AI
 
 
 
