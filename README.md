@@ -51,9 +51,7 @@ Tính năng chính
 
 •	Xử lí va chạm
 
-
 •	Tính điểm
-
 
 •	Sound
 
@@ -63,7 +61,7 @@ Tính năng chính
 
 •	Background music
 
-
+Ngưỡng điểm mong muốn: 8-8,5
 
 Nguồn tham khảo: 
 - Assets: https://www.spriters-resource.com/mobile/doodlejump/sheet/51424/
